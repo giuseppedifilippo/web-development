@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<!--creazione di una pagina che crea un cv-->
+
+<head><!--applica a tutti i div queste regole-->
+    <style>
+        * {
+            box-sizing: border-box;
+            /*tutti i dic figli nel body considerano solo lo spazio del parent*/
+        }
+
+        div {
+            /*border: 1px solid black;*/
+        }
+
+        #container {
+            /* da il bordo a tutti i div con id container*/
+            /* border: 2px solid red;*/
+            width: 500px;
+            margin: auto;
+            background: #1a237e;
+            /*centra automaticamente il container*/
+        }
+
+        #sx {
+            width: 30%;
+            display: inline-block;
+            background: #283593;
+            /*non basta per mettere i due div inline*/
+
+        }
+
+        #dx {
+            width: 65%;
+            display: inline-block;
+            background: #283593;
+        }
+        #profilo {
+            background: #ffb300;
+            padding: 30px 15px 20px 10px;
+        }
+        #profilo img{
+            width: 100%;
+            border-radius: 100%;
+        }
+        #profilo h1,h2{
+            color: white;
+            text-align: center;
+            text-transform: lowercase;
+        }
+        #about h3{
+            color: #ffb300;
+            margin: 10px 0;
+            font-size: 1.25em;
+        }
+        #info {
+            color: #ffb300;
+        }
+        a {
+            color: white
+        }
+        svg {
+            fill: #1a237e;
+            transition-duration: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="sx"><div id="profilo">Profilo
+            <img src="nerd.png">
+            <h1 style="margin-bottom: 0%;">Giuseppe Difilippo <h2 style="margin-top: 0%;">studente</h2></h1>
+            </div>
+            <div id="info">Informazioni
+                <div id="about">su di me 
+                    <h3></h3>
+                </div>
+                <div>Contattami
+                    <p><a href="tel:123456789">cell</a></p>
+                    <p><a href="address:Milano">casa</a></p>
+                </div>
+                <div>Seguimi</div>
+            </div>
+        </div><div id="dx"><!--lo spazio tra i div viene formattato-->
+            <div>
+                <div>Experience</div>
+                <div>education</div>
+            </div>
+            <div>Coding skills</div>
+            <div>Software skills</div>
+            <div>Interessi</div>
+        </div>
+    </div>
+</body>
+
+</html>
