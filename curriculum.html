@@ -12,30 +12,33 @@
         #container {
             /* da il bordo a tutti i div con id container*/
             /* border: 2px solid red;*/
-            width: 500px;
+            width: 700px;
             margin: auto;
             background: #1a237e;
             /*centra automaticamente il container*/
+            display: flex;
+            /*crea una ombra nera con un offset x e y di 10px*/
+            box-shadow: 10px 10px rgb(37, 17, 110);
+            color: white;
+
         }
 
         #sx {
             width: 30%;
-            display: inline-block;
             background: #283593;
             /*non basta per mettere i due div inline*/
         }
 
         #dx {
             width: 65%;
-            display: inline-block;
             /*background: #283593;*/
-            position: absolute;
-            box-sizing: border-box;
+            /*position: absolute;*/
+
         }
 
         #profilo {
             background: #ffb300;
-            padding: 30px 15px 20px 10px;
+            padding: 30px 15px 20px 15px;
         }
 
         #profilo img {
@@ -51,7 +54,7 @@
             text-transform: lowercase;
         }
 
-        #about h3 {
+        h3 {
             color: #ffb300;
             margin: 10px 0;
             font-size: 1.25em;
@@ -71,26 +74,7 @@
             transition-duration: 0.3s;
         }
 
-        #exp {
-            display: inline-block;
-            width: 40%;
-            margin-right: 10;
-            background: #283593;
-        }
 
-        #edu {
-            display: inline-block;
-            background: #283593;
-            width: 40%;
-        }
-
-        #lista li {
-            display: inline;
-        }
-
-        li::marker {
-            color: #ffb300;
-        }
 
         #box {
             text-align: center;
@@ -109,20 +93,36 @@
             transform: scale(1.2) rotate(360deg);
         }
 
-        #code {
+
+        .box-dx {
             background: #283593;
-            margin-top: 10px;
-            max-width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: 10px;
+            box-shadow: 10px 10px black;
+            margin: 15px;
+            padding: 15px
+        }
+        
+
+        .box-dx ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+
         }
 
-        #soft {
-            background: #283593;
+        .dx-up {
+            display: flex;
+            margin-left: 10px;background: #283593;
         }
 
-        #int {
-            background: #283593;
+        .dx-up div {
+            width: 100%;
+        }
+        .box-dx li:hover{
+            color: #ffb300;
+            transform: scale(1.2) ;
+            transition-duration: 0.3s;
         }
     </style>
 </head>
@@ -140,7 +140,8 @@
                     <h3>Su di me</h3>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </div>
-                <div><h3>Contattami</h3>
+                <div>
+                    <h3>Contattami</h3>
                     <p><a href="tel:123456789">cell</a></p>
                     <p><a href="address:Milano">casa</a></p>
                     <p><a href="mailto:giuseppe.difilippo@live.it">giuseppe.difilippo@live.it</a></p>
@@ -174,27 +175,32 @@
             </div>
         </div>
         <div id="dx"><!--lo spazio tra i div viene formattato-->
-            <div>
-                <div id="exp">Experience</div>
-                <div id="edu">education</div>
+            <div class="dx-up">
+                <div class="dx-up">
+                    <h3>Experience</h3>
+                </div>
+                <div class="dx-up">
+                    <h3>Education</h3>
+                </div>
             </div>
-            <div id="lista">
-                <div id="code">Coding skills
-                    <div>
+            <div>
+                <div class="box-dx">
+                    <h3>Coding skills</h3>
                         <ul>
                             <li>Python</li>
                             <li>C</li>
                             <li>Golang</li>
                         </ul>
                     </div>
-                </div>
-                <div id="soft">Software skills
+                <div class="box-dx">
+                    <h3>Software skills</h3>
                     <ul>
                         <li>Inventor</li>
                         <li>Solidworks</li>
                     </ul>
                 </div>
-                <div id="int">Interessi
+                <div class="box-dx">
+                    <h3>Interessi</h3>
                     <ul>
                         <li>Videogiochi</li>
                         <li>DIY</li>
