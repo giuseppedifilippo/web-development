@@ -1,14 +1,78 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+
     </head>
-    <body><script src="swapijs.js"></script>
-    <div>
-        <div id="titolo" style="color: white;">
-            <div id="releasedate"></div>
-            <div id="personaggi" style="color: white;"></div>
-        </div>
-    </div>
-    </body> 
+    <body>
+        <input id="numero" type="number" onchange="richiesta(this.value)">
+        <h1 id="mostra"></h1>
+        <h2 id="sinossi"></h2>
+        <h3 id="release_date"></h3>
+        <h3 id="director"></h3>
+
+        <h3>Personaggi</h3>
+        <h4 id="characters"></h4>
+
+        <h3>Navicelle</h3>
+        <h4 id="starships"></h4>
+
+        <h3>Pianeti</h3>
+        <h4 id="planets"></h4>
+    </body>
+    <script>
+        var url = new URLSearchParams(window.location.search).get('url');
+        if (url != null) {
+            urlparts = url.split('/');
+            document.getElementById("numero").value = urlparts[5];
+            richiesta(urlparts[5]);
+        }
+
+        function richiesta(numero) {
+            fetch("https://swapi.info/api/films/" + numero + "/")
+            .then(response => {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    alert("Risorsa non esistente")
+                }
+            })
+            .then(results => {
+                console.log(results);
+                document.getElementById('mostra').innerHTML = results.title;
+                document.getElementById('sinossi').innerHTML = results.opening_crawl;
+                document.getElementById('release_date').innerHTML = results.release_date;
+                document.getElementById('director').innerHTML = results.director;
+
+                document.getElementById('characters').innerHTML = "";
+                for (var i = 0; i < results.characters.length; i++) {
+                    fetch(results.characters[i])
+                        .then(response => response.json())
+                        .then(characters => {
+                            document.getElementById('characters').innerHTML +=
+                            "<a href='personaggio.html?url=" + characters.url + "'>" + characters.name + "</a><br>";
+                        })
+                }
+
+                document.getElementById('starships').innerHTML = "";
+                for (var i = 0; i < results.starships.length; i++) {
+                    fetch(results.starships[i])
+                        .then(response => response.json())
+                        .then(starship => {
+                            document.getElementById('starships').innerHTML +=
+                            "<a href='navicella.html?url=" + starship.url + "'>" + starship.model + "</a><br>";
+                        })
+                }
+                
+                document.getElementById('planets').innerHTML = "";
+                for (var i = 0; i < results.planets.length; i++) {
+                    fetch(results.planets[i])
+                        .then(response => response.json())
+                        .then(planet => {
+                            document.getElementById('planets').innerHTML +=
+                            "<a href='pianeta.html?url=" + planet.url + "'>" + planet.model + "</a><br>";
+                        })
+                }
+            })
+        }
+    </script>
 </html>
