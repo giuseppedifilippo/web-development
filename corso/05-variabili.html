@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Variabili</title>
+    </head>
+    <body>
+        <button onclick="console.log(`quantità: ${cart}`)" >quantità</button>
+        <button onclick="cart = cart + 1; console.log(`quantità: ${cart}`)">aggiungi</button>
+        <button onclick="cart = cart + 2; console.log(`quantità: ${cart}`)">+2</button>
+        <button onclick="cart = cart + 3; console.log(`quantità: ${cart}`)">+3</button>
+        <button onclick="cart = 0; console.log('cart was reset'); console.log(`quantità: ${cart}`)">reset</button>
+        <script>
+            let cart = 0;
+        </script>
+            
+    </body>
+</html>
