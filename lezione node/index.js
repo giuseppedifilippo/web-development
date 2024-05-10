@@ -90,6 +90,27 @@ app.post("/users", function (req, res) {
     addUser(res, req.body)
     console.log(registredUsers)
 })
+
+
+//------------------login----------------//
+function loginUser(res, body) {
+    if (body.email == undefined){
+        res.status(400).send("mail mancante");
+    }
+
+    let loggedUser = registredUsers.find((user) => user.email == body.email && user.password == body.password)
+}
+
+
+app.post('/login', function(req,res) {
+    let body = req.body;
+
+})
+
+
+
+
+
 app.listen(port, () => {
     console.log(`PWM porta in ascolto: ${port}`)
 })
