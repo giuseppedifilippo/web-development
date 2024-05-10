@@ -1,5 +1,9 @@
 const fs = require('fs')
 const express = require('express')
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+
 var bodyParser = require('body-parser')
 
 let rawUsers = fs.readFileSync('users.json')
@@ -9,6 +13,8 @@ let registredUsers = JSON.parse(rawUsers)
 const app = express()
 app.use(express.json())
 const port = 3000
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 function updateFile() {
     fs.writeFileSync("users.json", JSON.stringify(registredUsers))
