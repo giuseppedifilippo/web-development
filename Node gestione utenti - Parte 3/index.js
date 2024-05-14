@@ -48,7 +48,6 @@ app.get("/search", function(req, res) {
 })
 
 function addUser(res, user) {
-    /*#swagger*/
     if (user.name !== undefined && user.password !== undefined) {
         if (user.name.length < 3) {
             res.status(400).send("Nome troppo corto o mancante")
@@ -135,6 +134,16 @@ function deleteUserFav(res, id, movie) {
 }
 
 app.post("/users", function (req, res) {
+    /* #swagger.requestBody = {
+    required: true,
+    content: {
+        "application/json": {
+            schema: { $ref: "#/components/schemas/userSchema" },
+            }
+        }
+    }
+}
+*/
     addUser(res, req.body)
     console.log(registredUsers)
 })
@@ -180,6 +189,28 @@ app.post('/login', function (req, res) {
     loginUser(res, body);
 })
 
+//---------------aggiunta attori favoriti ------------//
+
+function addFavActor(req,id, body) {
+    if (registredUsers[id] === undefined) {
+        res.status(404).send("Id errato")
+    } else {
+        if (body.preferito === undefined) {
+            res.status(404).send("Attore errato")
+        } else {
+            registredUsers[id].attori_preferiti.push(body.attore_preferito)
+            res.json(registredUsers[id])
+            updateFile()
+
+
+        }
+
+    }
+}
+app.post('/user/:id/fav_actor/:nome', function(req,res){
+    addFavActor(req, req.params.id, req.params.nome )
+})
+//--------------------------------------//
 app.listen(port, '0.0.0.0', () => {
     console.log(`PWM porta in ascolto: ${port}`)
 })

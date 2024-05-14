@@ -1,11 +1,12 @@
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require('swagger-autogen')(openapi = "3.0.0");
 
 const doc = {
   info: {
     title: 'My API',
     description: 'Description'
   },
-  components: {
+   host: 'localhost:3000',
+   components: {
     schemas: {
         userSchema: {
             $name: 'valerio',
@@ -15,7 +16,6 @@ const doc = {
         }
     }
   }
-  host: 'localhost:3000'
 };
 
 const outputFile = './swagger-output.json';
