@@ -100,38 +100,8 @@ function getUserFav(res, id) {
 }
 
 
-function addUserFav(res, body, id) {
-    if (registredUsers[id] === undefined) {
-        res.status(404).send("Id errato")
-    } else {
-        if (body.preferito === undefined) {
-            res.status(404).send("Film errato")
-        } else {
-            registredUsers[id].film_preferiti.push(body.preferito)
-            res.json(registredUsers[id])
-            updateFile()
 
 
-        }
-
-    }
-}
-
-function deleteUserFav(res, id, movie) {
-    if (registredUsers[id] === undefined) {
-        res.status(404).send("Id errato");
-    } else {
-        fav_index = registredUsers[id].film_preferiti.findIndex((item) => item == movie)
-        if (fav_index == -1) {
-            res.status(404).send("Preferito non trovato");
-        } else {
-            registredUsers[id].film_preferiti.splice(fav_index, 1);
-            res.send(registredUsers[id])
-            updateFile()
-        }
-
-    }
-}
 
 app.post("/users", function (req, res) {
     /* #swagger.requestBody = {
@@ -164,17 +134,52 @@ app.delete('/users/:id', function (req, res) {
 })
 
 //Preferiti
+//------------aggiunta attori favoriti-------//
+function addUserFav(res, body, id) {
+    if (registredUsers[id] === undefined) {
+        res.status(404).send("Id errato")
+    } else {
+        if (body.preferito === undefined) {
+            res.status(404).send("Film errato")
+        } else {
+            registredUsers[id].film_preferiti.push(body.preferito)
+            res.json(registredUsers[id])
+            updateFile()
 
-app.get('/users/:id/fav', function (req, res) {
-    let id = req.params.id;
-    getUserFav(res, id);
-})
 
+        }
+
+    }
+}
 app.post('/users/:id/fav', function (req, res) {
     let id = req.params.id;
     let body = req.body;
     addUserFav(res, body, id);
 })
+//----------------------------------//
+app.get('/users/:id/fav', function (req, res) {
+    let id = req.params.id;
+    getUserFav(res, id);
+})
+
+
+
+//----------------cancella film preferiti--------//
+function deleteUserFav(res, id, movie) {
+    if (registredUsers[id] === undefined) {
+        res.status(404).send("Id errato");
+    } else {
+        fav_index = registredUsers[id].film_preferiti.findIndex((item) => item == movie)
+        if (fav_index == -1) {
+            res.status(404).send("Preferito non trovato");
+        } else {
+            registredUsers[id].film_preferiti.splice(fav_index, 1);
+            res.send(registredUsers[id])
+            updateFile()
+        }
+
+    }
+}
 
 app.delete('/users/:id/fav/:movie', function (req, res) {
     let id = req.params.id;
@@ -182,7 +187,8 @@ app.delete('/users/:id/fav/:movie', function (req, res) {
     deleteUserFav(res, id, movie);
 
 })
-// Login
+//---------------------------------//
+
 
 app.post('/login', function (req, res) {
     let body = req.body;
@@ -191,7 +197,7 @@ app.post('/login', function (req, res) {
 
 //---------------aggiunta attori favoriti ------------//
 
-function addFavActor(req,id, body) {
+function addFavActor(res,id, body) {
     if (registredUsers[id] === undefined) {
         res.status(404).send("Id errato")
     } else {
@@ -208,9 +214,33 @@ function addFavActor(req,id, body) {
     }
 }
 app.post('/user/:id/fav_actor/:nome', function(req,res){
-    addFavActor(req, req.params.id, req.params.nome )
+    addFavActor(res, req.params.id, req.params.nome )
 })
 //--------------------------------------//
+
+//---------------rimozione attori favoriti-------------//
+
+function delUserFavActor(req, id, body) {
+    if (registredUsers[id] === undefined) {
+        res.status(404).send("Id errato");
+    } else {
+        fav_index = registredUsers[id].attori_preferiti.findIndex((item) => item == movie)
+        if (fav_index == -1) {
+            res.status(404).send("Attore preferito non trovato");
+        } else {
+            registredUsers[id].attori_preferiti.splice(fav_index, 1);
+            res.send(registredUsers[id])
+            updateFile()
+        }
+
+    }
+}
+
+app.delete('/user/:id/fav_actor/:nome', function(req,res) {
+    let id = req.params.id;
+    let body = req.params.body
+    delUserFavActor(req, id, body)
+})
 app.listen(port, '0.0.0.0', () => {
     console.log(`PWM porta in ascolto: ${port}`)
 })

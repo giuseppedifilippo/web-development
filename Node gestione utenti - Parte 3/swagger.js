@@ -2,8 +2,8 @@ const swaggerAutogen = require('swagger-autogen')(openapi = "3.0.0");
 
 const doc = {
   info: {
-    title: 'My API',
-    description: 'Description'
+    title: 'Difilippo API',
+    description: 'Test di API'
   },
    host: 'localhost:3000',
    components: {
