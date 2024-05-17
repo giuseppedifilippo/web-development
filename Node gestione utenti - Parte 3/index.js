@@ -1,6 +1,24 @@
 const fs = require('fs')
 const express = require('express')
 var bodyParser = require('body-parser')
+var cors = require('cors')
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://giuseppe_difilippo:UDPzdjaGbf6TvaZz@cluster0.ne7sxfp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri);
+async function run() {
+    try {
+        // Connect the client to the server	(optional starting in v4.7)
+        await client.connect();
+        // Send a ping to confirm a successful connection
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+}
+run().catch(console.dir);
 
 let rawUsers = fs.readFileSync('users.json')
 const swaggerUi = require('swagger-ui-express');
@@ -11,6 +29,7 @@ let registredUsers = JSON.parse(rawUsers)
 const app = express()
 app.use(express.json())
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cors())
 const port = 3000
 
 function updateFile() {
@@ -20,7 +39,10 @@ function updateFile() {
 
 function getUsers(res) {
     res.json(registredUsers);
+    
 }
+
+
 
 function getUser(res, id) {
     if (registredUsers[id] === undefined) {
@@ -38,13 +60,17 @@ function deleteUser(res, id) {
 
 //----------------search------------//
 
-function searchUser(res,s) {
+function searchUser(res, s) {
     let result = registredUsers.filter((user) => user.name.toLowerCase().includes(s));
     res.json(result);
 }
-app.get("/search", function(req, res) {
+app.get("/search", async function (req, res) {
     s = req.query.s;
-    searchUser(res,s);
+    searchUser(res, s);
+    const pwm_client = await client.connect();
+    var users = await pwm_client.db("pwm").collections("users").find().toArray();
+    console.log(users);
+    res.json(users)
 })
 
 function addUser(res, user) {
@@ -116,6 +142,7 @@ app.post("/users", function (req, res) {
 */
     addUser(res, req.body)
     console.log(registredUsers)
+    
 })
 
 app.get("/users", function (req, res) {
@@ -197,7 +224,7 @@ app.post('/login', function (req, res) {
 
 //---------------aggiunta attori favoriti ------------//
 
-function addFavActor(res,id, body) {
+function addFavActor(res, id, body) {
     if (registredUsers[id] === undefined) {
         res.status(404).send("Id errato")
     } else {
@@ -213,8 +240,8 @@ function addFavActor(res,id, body) {
 
     }
 }
-app.post('/user/:id/fav_actor/:nome', function(req,res){
-    addFavActor(res, req.params.id, req.params.nome )
+app.post('/user/:id/fav_actor/:nome', function (req, res) {
+    addFavActor(res, req.params.id, req.params.nome)
 })
 //--------------------------------------//
 
@@ -236,7 +263,7 @@ function delUserFavActor(req, id, body) {
     }
 }
 
-app.delete('/user/:id/fav_actor/:nome', function(req,res) {
+app.delete('/user/:id/fav_actor/:nome', function (req, res) {
     let id = req.params.id;
     let body = req.params.body
     delUserFavActor(req, id, body)
@@ -245,5 +272,5 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`PWM porta in ascolto: ${port}`)
 })
 
-//TERMINARE LO SWAGGER E AGGIUNGERE LE API PER ATTORI PREFERITI 
+//TERMINARE LO SWAGGER E AGGIUNGERE LE API PER ATTORI PREFERITI
 //E REPLICARE LA STESSA GESTIONE DEI FILM PREFERITI PER GLI ATTORI

@@ -18,5 +18,23 @@
     "film_preferiti": [],
     "attori_preferiti": []
   },
-  {}
+  {
+    "name": "Mario",
+    "surname": "rossi",
+    "password": "password",
+    "email": "mario.rossi@unimi.it",
+    "film_preferiti": [
+      1,
+      3
+    ],
+    "attori_preferiti": []
+  },
+  {
+    "name": "qunadale",
+    "surname": "dingle",
+    "password": "password",
+    "email": "quandale.dingle@unimi.it",
+    "film_preferiti": [],
+    "attori_preferiti": []
+  },
 ]
